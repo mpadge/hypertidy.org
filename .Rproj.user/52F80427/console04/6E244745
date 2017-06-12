@@ -202,3 +202,60 @@ Untracked files:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git add contne[K[K[K[K[K[K.
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git commit -m "date formate"
+[master c55a33b] date formate
+ 10 files changed, 207 insertions(+), 41 deletions(-)
+ delete mode 100644 .Rproj.user/52F80427/sources/s-47908AE/53E7E7FB
+ create mode 100644 .gitignore
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   .Rproj.user/52F80427/console04/6E244745[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git push
+error: cannot run rpostback-askpass: No such file or directory
+Username for 'https://github.com': mdsumner
+error: cannot run rpostback-askpass: No such file or directory
+Password for 'https://mdsumner@github.com': 
+Counting objects: 18, done.
+Delta compression using up to 16 threads.
+Compressing objects:   5% (1/17)   Compressing objects:  11% (2/17)   Compressing objects:  17% (3/17)   Compressing objects:  23% (4/17)   Compressing objects:  29% (5/17)   Compressing objects:  35% (6/17)   Compressing objects:  41% (7/17)   Compressing objects:  47% (8/17)   Compressing objects:  52% (9/17)   Compressing objects:  58% (10/17)   Compressing objects:  64% (11/17)   Compressing objects:  70% (12/17)   Compressing objects:  76% (13/17)   Compressing objects:  82% (14/17)   Compressing objects:  88% (15/17)   Compressing objects:  94% (16/17)   Compressing objects: 100% (17/17)   Compressing objects: 100% (17/17), done.
+Writing objects:   5% (1/18)   Writing objects:  11% (2/18)   Writing objects:  16% (3/18)   Writing objects:  22% (4/18)   Writing objects:  27% (5/18)   Writing objects:  33% (6/18)   Writing objects:  38% (7/18)   Writing objects:  44% (8/18)   Writing objects:  50% (9/18)   Writing objects:  55% (10/18)   Writing objects:  61% (11/18)   Writing objects:  66% (12/18)   Writing objects:  72% (13/18)   Writing objects:  77% (14/18)   Writing objects:  83% (15/18)   Writing objects:  88% (16/18)   Writing objects:  94% (17/18)   Writing objects: 100% (18/18)   Writing objects: 100% (18/18), 4.52 KiB | 0 bytes/s, done.
+Total 18 (delta 8), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/8)   [Kremote: Resolving deltas:  12% (1/8)   [Kremote: Resolving deltas:  25% (2/8)   [Kremote: Resolving deltas:  37% (3/8)   [Kremote: Resolving deltas:  50% (4/8)   [Kremote: Resolving deltas:  62% (5/8)   [Kremote: Resolving deltas:  75% (6/8)   [Kremote: Resolving deltas:  87% (7/8)   [Kremote: Resolving deltas: 100% (8/8)   [Kremote: Resolving deltas: 100% (8/8), completed with 8 local objects.[K
+To https://github.com/rbind/hypertidy.org.git
+   9cba151..c55a33b  master -> master
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ logout
+[K]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   .Rproj.user/52F80427/console04/6E244745[m
+	[31mmodified:   .Rproj.user/52F80427/console04/INDEX001[m
+	[31mmodified:   .Rproj.user/52F80427/session-persistent-state[m
+	[31mmodified:   .Rproj.user/52F80427/sources/prop/B6E23EBA[m
+	[31mmodified:   .Rproj.user/52F80427/sources/prop/F3CABF0C[m
+	[31mmodified:   .Rproj.user/52F80427/sources/s-47908AE/1EE48865[m
+	[31mdeleted:    .Rproj.user/52F80427/sources/s-47908AE/53E7E7FB-contents[m
+	[31mmodified:   .Rproj.user/52F80427/sources/s-47908AE/656082D[m
+	[31mmodified:   .Rproj.user/52F80427/sources/s-47908AE/656082D-contents[m
+	[31mdeleted:    .Rproj.user/52F80427/sources/s-47908AE/9E83CD95-contents[m
+	[31mmodified:   .Rproj.user/52F80427/sources/s-47908AE/lock_file[m
+	[31mmodified:   hypertidy.org.Rproj[m
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m.Rhistory[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git add .
