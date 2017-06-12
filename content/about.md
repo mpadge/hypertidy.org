@@ -9,7 +9,7 @@ Hypertidy is an approach to spatial or multi-dimensional data in R based on the 
 
 * data sources are best managed with database *techniques*
 * *spatial is not special*, user-interfaces, graphics and time-series all involve 'space'
-* raster and vector are not naturally distinct, high-dimensional, curvilinear, cell-based rasters, polygon gris and ragged-arrays all cross this boundary
+* raster and vector are not naturally distinct, high-dimensional, curvilinear, cell-based rasters, polygon grids and ragged-arrays all cross this boundary
 * 'mesh-based' or 'indexed' data structures are central, general data types while traditionally "geospatial" structures are domain-specific optimizations
 * simple features left topology behind, resulting in fragmented and inefficient workarounds in the geo-spatial communities 
 * R spatial needs better APIs, a rich ecosystem of small, composable software modules
