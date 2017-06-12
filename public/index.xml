@@ -17,7 +17,9 @@
       <pubDate>Mon, 12 Jun 2017 11:47:31 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>This is a blogdown website for the hypertidy family of R packages for multi-dimensional and spatial data.</description>
+      <description>This is a blogdown website for the hypertidy family of R packages for multi-dimensional and spatial data.
+Hypertidy is an approach to multi-dimensional data in R based on the following principles:
+ manage information about data sources with database techniques spatial is not special, user-interfaces, graphics and time-series involve &amp;lsquo;space&amp;rsquo; too raster and vector are not naturally distinct, high-dimensional, curvilinear, cell-based rasters, and ragged-array grids all cross this boundary &amp;lsquo;mesh-based&amp;rsquo; or &amp;lsquo;indexed&amp;rsquo; data structures are central, general data types - raster and vector are domain-specific optimizations R geo-spatial needs better APIs, a rich ecosystem of small, composable software modules tidy data  Examples of these principles are seen in these R packages.</description>
     </item>
     
     <item>
