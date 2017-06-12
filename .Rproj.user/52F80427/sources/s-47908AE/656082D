@@ -5,14 +5,14 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "0",
+    "hash" : "1489278210",
     "id" : "656082D",
-    "lastKnownWriteTime" : 1497232150,
-    "last_content_update" : 1497232150989,
+    "lastKnownWriteTime" : 1497232988,
+    "last_content_update" : 1497232988271,
     "path" : "~/Git/hypertidy.org/content/about.md",
     "project_path" : "content/about.md",
     "properties" : {
-        "cursorPosition" : "5,78",
+        "cursorPosition" : "2,15",
         "scrollLine" : "0"
     },
     "relative_order" : 3,
