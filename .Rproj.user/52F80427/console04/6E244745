@@ -1,0 +1,21 @@
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ [K]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git init
+Initialized empty Git repository in /perm_storage/home/mdsumner/Git/hypertidy.org/.git/
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31m.Rproj.user/[m
+	[31mconfig.toml[m
+	[31mcontent/[m
+	[31mhypertidy.org.Rproj[m
+	[31mindex.Rmd[m
+	[31mpublic/[m
+	[31mstatic/[m
+	[31mthemes/[m
+
+nothing added to commit but untracked files present (use "git add" to track)
+]0;/perm_storage/home/mdsumner/Git/hypertidy.org]0;mdsumner@thirtyonetwentyone: ~/Git/hypertidy.org[01;32mmdsumner@thirtyonetwentyone[00m:[01;34m~/Git/hypertidy.org[00m$ git add .

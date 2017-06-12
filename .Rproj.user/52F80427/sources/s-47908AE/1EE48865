@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1497231879609.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3406656325",
+    "id" : "1EE48865",
+    "lastKnownWriteTime" : 1497231918,
+    "last_content_update" : 1497231918215,
+    "path" : "~/Git/hypertidy.org/config.toml",
+    "project_path" : "config.toml",
+    "properties" : {
+        "cursorPosition" : "20,39",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "text"
+}
