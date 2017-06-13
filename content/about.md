@@ -24,4 +24,6 @@ Examples of these principles are seen in these R packages.
 
 [**sc**](https://github.com/mdsumner/sc), [**quadmesh**](https://github.com/hypertidy/quadmesh), [**rbgm**](https://github.com/AustralianAntarcticDivision/rbgm/)
 
+
+
 More soon. 

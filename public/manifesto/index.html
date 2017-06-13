@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.20.6" />
+
+
+<title>Hypertidy manifesto - Hypertidy website</title>
+<meta property="og:title" content="Hypertidy manifesto - Hypertidy website">
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../css/fonts.css" media="all">
+<link rel="stylesheet" href="../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../" class="nav-logo">
+    <img src="../images/hypertidy-logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../about/">About</a></li>
+    
+    <li><a href="https://github.com/hypertidy">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/mdsumner">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Hypertidy manifesto</h1>
+
+    
+
+    <div class="article-content">
+      
+
+<h2 id="gridded-data">Gridded data</h2>
+
+<p>Hypertidy recognizes that not all gridded data fit into the GIS raster conventions. Gridded data comes in many forms, geographic with longitude-latitude or projected spaces, with time and or depth dimensions, with different orderings of axes (i.e. time-first, the latitude-longitude), and with generally any arbitrary space. A space is simply a set of axes with particular units and projection, and yes we mean &ldquo;space&rdquo; and &ldquo;projection&rdquo; in the more general mathematical sense. Date-time data is a projection, there is a mapping of a particular set of values to the real line and the position on that line for particular instant is defined by the axis units and epoch.</p>
+
+<p>Mesh and grid share the same meaning in some contexts.</p>
+
+<h2 id="structured-vs-unstructured-topology-vs-geometry">Structured vs. unstructured, topology vs. geometry</h2>
+
+<p>Array-based data have a straight-forward relationship between a set of axes that have discrete steps. These are &ldquo;structured grids&rdquo;. Unstructured grids include triangulations, non-regularly binned histograms, tetrahedral meshes and ragged arrays.</p>
+
+<p>An unstructured mesh (grid) is able to represent any data structure, but structured meshes have some advantages because of the regular indexing relationship between dimensions.</p>
+
+<p>GIS vector constructs &ldquo;polygons&rdquo;, &ldquo;lines&rdquo;, &ldquo;points&rdquo; are special case optimizations of the unstructured grid case. Polygons really are topologically identical to lines, and they are a dead-end in the broader scheme of dimensionality. Points and lines can are topologicaly 0-dimensional and 1-dimensional respectively, and this shape-constraint is the same no matter what geometric dimension they are defined in. A line can twist around a 4D space with x, y, z, t coordinates at its segment nodes or it can be constrained to single dimension with only one of those coordinates specifying its position. The topology of the line is completely independent of the geometry, if we treat the line as composed of topological primitives.</p>
+
+<p>Polygons are not composed of topological primitives, but they can be treated as being composed of line primitives.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+    
+
+    
+  </body>
+</html>
+
