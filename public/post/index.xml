@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Hypertidy website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 25 Jul 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Web services for scientific data in R</title>
+      <link>/2017/07/25/erddap-in-sf-and-ggplot2/</link>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/07/25/erddap-in-sf-and-ggplot2/</guid>
+      <description>Two very important packages in R are rerddap and plotdap providing straightforward access to and visualization of time-varying gridded data sets. Traditionally this is handled by individuals who either have or quickly gain expert knowledge about the minute details regarding obtaining data sources, exploring and extracting data from them, manipulating the data for the required purpose and reporting results. Often this task is not the primary goal, it’s simply a requirement for comparison to environmental data or validation of direct measurements or modelled scenarios against independent data.</description>
+    </item>
     
     <item>
       <title>Hello hypertidy</title>

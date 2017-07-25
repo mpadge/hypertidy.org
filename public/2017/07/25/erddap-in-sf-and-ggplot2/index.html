@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.20.6" />
+
+
+<title>Web services for scientific data in R - Hypertidy website</title>
+<meta property="og:title" content="Web services for scientific data in R - Hypertidy website">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
+<link rel="stylesheet" href="../../../../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../../../../" class="nav-logo">
+    <img src="../../../../images/hypertidy-logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../../../../about/">About</a></li>
+    
+    <li><a href="https://github.com/hypertidy">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/mdsumner">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">9 min read</span>
+    
+
+    <h1 class="article-title">Web services for scientific data in R</h1>
+
+    
+    <span class="article-date">2017/07/25</span>
+    
+
+    <div class="article-content">
+      <p>Two very important packages in R are <a href="https://CRAN.R-project.org/package=rerddap">rerddap</a> and <a href="https://github.com/ropensci/plotdap">plotdap</a> providing straightforward access to and visualization of time-varying gridded data sets. Traditionally this is handled by individuals who either have or quickly gain <em>expert knowledge</em> about the minute details regarding obtaining data sources, exploring and extracting data from them, manipulating the data for the required purpose and reporting results. Often this task is not the primary goal, it’s simply a requirement for <em>comparison to environmental data</em> or validation of direct measurements or modelled scenarios against independent data.</p>
+<p>This is a complex area, it touches on <strong>big data</strong>, <strong>web services</strong>, complex and sophisticated <strong>multi-dimensional scientific data in array formats</strong> (primarily <em>NetCDF</em>), <strong>map projections</strong>, and <strong>data aesthetics</strong> or <em>scaling</em> methods by which data values are converted into visualizations.</p>
+<p>R is not known to be strong in this area for <strong>handling large and complex array-based data</strong>, although it has had good support for every piece in the chain many of them were either not designed to work together or or languished without modernization for some time. There are many many approaches to <em>bring it all together</em> but unfortunately no concerted effort to sort it all out. What there is however is a very exciting and productive wave of experimentation and new packages to try, there’s a lot of exploration occurring and a lot of powerful new approaches.</p>
+<p><a href="https://ropensci.org/">ROpenSci</a> is producing a variety of valuable new R packages for scientific exploration and analysis. It and the <strong>RConsortium</strong> are both contributing directly into this ecosystem, with the latter helping to foster developments in <a href="https://CRAN.R-project.org/package=rerddap">simple features (polygons, lines and points)</a>, <a href="https://CRAN.R-project.org/package=rerddap">interactive map editing</a> and an <a href="https://github.com/r-spatial/stars">integration of large raster data handling</a>.</p>
+<div id="cool-right" class="section level2">
+<h2>Cool right!?</h2>
+<p>This is extremely cool, there is a lot of exciting new support for these sometimes challenging sources of data. However, there is unfortunately no concerted vision for integration of multi-dimensional data into the <a href="https:://tidyverse.org/">tidyverse</a> and many of the projects created for <em>data getting</em> and <em>data extraction</em> must include their own internal handlers for downloading and caching data sources and converting data into required forms. This <em>is</em> a complex area, but in some places it is <em>harder and more complex</em> than it really needs to be.</p>
+<p>To put some guides in this discussion, the rest of this post is informed by the following themes.</p>
+<ul>
+<li>the tidyverse is not just cool, it’s totally awesome (also provides a long-term foundation for the future)</li>
+<li>“good software design” facilitates powerful APIs and strong useability: composable, orthogonal components <strong>and</strong> effortless exploration and workflow development</li>
+<li>new abstractions are still to be found</li>
+</ul>
+<p>The tidyverse is loudly loved and hated. Critics complain that they already understood long-form data frames and that constant effusive praise on twitter is really annoying. Supporters just sit agog at a constant stream of pointless shiny fashion parading before their eyes … I mean, they fall into a pit of success and never climb out. Developers who choose the tidyverse as framework for their work appreciate its seamless integration of database principles and <em>actual databases</em>, the consistent and systematic syntax of composable single-purpose functions with predictable return types, the modularization and abstractability of <em>magrittr</em> piping, and the exciting and disruptive impact of <strong>tidy evaluation</strong> seen clearly already in <code>dplyr</code> and family, but which will clearly make it very easy to traverse the boundary between <em>being a user</em> and <em>being a developer</em>. What could be a better environment for the future of science and research?</p>
+</div>
+<div id="what-about-the-rasters" class="section level2">
+<h2>What about the rasters!</h2>
+<p>I’ve been using <strong>gridded data</strong> in R since 2002. I remember clearly learning about the use of the <code>graphics::image</code> function for visualizing <em>2D kernel density</em> maps created using <a href="https://CRAN.R-project.org/package=sm">sm</a>. I have a life-long shudder reflex at the <code>heat.colors</code> palette, and at KDE maps generally. I also remember my first encounter with the <a href="https://www.unidata.ucar.edu/software/netcdf/">NetCDF format</a> which would have looked exactly like this (after waiting half and hour to download <a href="ftp://ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.wkmean.1990-present.nc">this file</a>).</p>
+<pre class="r"><code>print(sst.file)</code></pre>
+<pre><code>## [1] &quot;data/ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.wkmean.1990-present.nc&quot;</code></pre>
+<pre class="r"><code>library(RNetCDF)
+con &lt;- open.nc(file.path(dp, sst.file))
+lon &lt;- var.get.nc(con, &quot;lon&quot;)
+lat &lt;- var.get.nc(con, &quot;lat&quot;)
+xlim &lt;- c(140, 155)
+ylim &lt;- c(-50, -35)
+xsub &lt;- lon &gt;= xlim[1] &amp; lon &lt;= xlim[2]
+ysub &lt;- lat &gt;= ylim[1] &amp; lat &lt;= ylim[2]
+tlim  &lt;- &quot;oh just give up, it&#39;s too painful ...&quot;
+time &lt;- var.get.nc(con, &quot;time&quot;)
+## you get the idea, who can be bothered indexing time as well these days
+v &lt;- var.get.nc(con, &quot;sst&quot;, start = c(which(xsub)[1], length(ysub) - max(which(ysub)), length(time)), count = c(sum(xsub), sum(ysub), 1))
+image(lon[xsub], rev(lat[ysub]), v[nrow(v):1, ], asp = 1/cos(42 * pi/180))</code></pre>
+<p><img src="../../../../post/2017-07-25-erddap-in-sf-and-ggplot2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>What a hassle! Let’s just use <a href="https://CRAN.R-project.org/package=raster">raster</a>. (These aren’t the same but I really don’t care about making sure the old way works, the new way is much better - when it works, which is <em>mostly</em> …).</p>
+<pre class="r"><code>library(raster)</code></pre>
+<pre><code>## Loading required package: sp</code></pre>
+<pre><code>## 
+## Attaching package: &#39;raster&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     select</code></pre>
+<pre class="r"><code>b &lt;- brick(file.path(dp, sst.file))</code></pre>
+<pre><code>## Loading required namespace: ncdf4</code></pre>
+<pre class="r"><code>nlayers(b)</code></pre>
+<pre><code>## [1] 1437</code></pre>
+<pre class="r"><code>raster(b)</code></pre>
+<pre><code>## class       : RasterLayer 
+## dimensions  : 180, 360, 64800  (nrow, ncol, ncell)
+## resolution  : 1, 1  (x, y)
+## extent      : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0</code></pre>
+<pre class="r"><code>## what time did you want?
+
+plot(crop(subset(b, nlayers(b) - c(1, 0)), extent(xlim, ylim), snap = &quot;out&quot;), col = heat.colors(12))</code></pre>
+<p><img src="../../../../post/2017-07-25-erddap-in-sf-and-ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>These are pretty cruddy data anyway, <em>1 degree resolution</em>, <em>weekly time steps</em>? Come on man!</p>
+<p>Why is this data set relevant? For a very long time the <strong>Optimally Interpolated Sea Surface Temperature</strong> data set, known fondly as <em>Reynolds SST</em> in some circles, was a very important touchstone for those working in <em>marine animal tracking</em>. From the earliest days of tuna tracking by <a href="https://swfsc.noaa.gov/publications/TM/SWFSC/NOAA-TM-NMFS-SWFC-60.PDF">(PDF): Northwest Pacific by light-level geo-locators</a>, a <a href="http://onlinelibrary.wiley.com/doi/10.1029/JC091iC11p12879/full">regional or global data set of surface ocean temperatures</a> was a critical comparison for tag-measured water temperatures. The strong and primarily <em>zonal</em>-gradients (i.e. varying by latitude, it gets cold as you move towards the poles) in the oceans provided an informative corrective to “light level geo-location” latitude estimates, especially when plagued by <a href="http://publishing.cdlib.org/ucpressebooks/view?docId=ft7b69p131&amp;chunk.id=d0e20466&amp;toc.depth=1&amp;brand=ucpress"><em>total zonal ambiguity</em> (see Figure 12.3)</a> around the equinoxes.</p>
+<p>Today we can use much finer resoution <em>blended</em> products for the entire globe. Blended means it’s a combination of measured (remote-sensing, bucket off a ship) and modelled observations, that’s been interpolated to “fill gaps”. This is not a simple topic of course, remotely sensed temperatures must consider whether it is day or night, how windy it is, the presence of sea ice, and many other factors - but as a global science community we have developed to the point of delivering a single agreed data set for this property. And now that it’s 2017, you have the chance of downloading all 5000 or so daily files, the total is only 2000 Gb.</p>
+<p>So nothing’s free right? You want high-resolution, you get a big download bill.</p>
+</div>
+<div id="web-services-for-scientific-array-data" class="section level2">
+<h2>Web services for scientific array data</h2>
+<p>Ah, no - we don’t have to download every large data set. That’s where <a href="http://coastwatch.pfeg.noaa.gov/erddap/index.html">ERDDAP</a> comes in!</p>
+<p>This makes it easy, but I’m still not happy. In this code a raw NetCDF file is downloaded but is not readily useable by other processes, it’s not obvious how to connect directly to the source with NetCDF API, the raster data itself is turned into both a data frame, and turned into a grid ignoring irregularity in the coordinates, the raster is then resized and possibly reprojected, then turned into a <em>polygon layer</em> (eek) and finally delivered to the user as a very simple high level function that accepts standard grammar expressions of the tidyverse.</p>
+<pre class="r"><code>#install.packages(&quot;rerddap&quot;)
+#devtools::install_github(&quot;ropensci/plotdap&quot;)
+library(rerddap)
+library(plotdap)
+library(ggplot2)
+sstInfo &lt;- info(&#39;jplMURSST41&#39;)
+#system.time({  ## 26 seconds
+murSST &lt;- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105),
+                  time = c(&#39;last&#39;,&#39;last&#39;), fields = &#39;analysed_sst&#39;)</code></pre>
+<pre><code>## [1] &quot;https://upwell.pfeg.noaa.gov/erddap/griddap/jplMURSST41.nc&quot;</code></pre>
+<pre class="r"><code>#})
+f &lt;- attr(murSST, &quot;path&quot;)
+#unlink(f)
+
+## the murSST (it&#39;s a GHRSST L4  foundational SST product ) is an extremely detailed raster source, it&#39;s really the only
+## daily blended (remote sensing + model) and interpolated (no-missing values)
+## Sea Surface Temperature for global general usage that is high resolution.
+## The other daily blended product Optimally Interpolated (OISST) is only 0.25 degree resolution
+## The GHRSST product is available since 2002, whereas OISST is available since
+## 1981 (the start of the AVHRR sensor era)
+maxpixels &lt;- 50000
+dres &lt;- c(mean(diff(sort(unique(murSST$data$lon)))), mean(diff(sort(unique(murSST$data$lat)))))
+library(raster)
+r &lt;- raster(extent(range(murSST$data$lon) + c(-1, 1) * dres[1]/2, range(murSST$data$lat) + c(-1, 1) * dres[2]/2),
+       res = dres, crs = &quot;+init=epsg:4326&quot;)
+
+dim(r) &lt;- dim(r)[1:2] %/% sqrt(ceiling(ncell(r) / maxpixels))
+
+dat &lt;- murSST$data %&gt;%
+  mutate(bigcell = cellFromXY(r, cbind(lon, lat))) %&gt;%
+  group_by(time, bigcell) %&gt;%
+  summarize(analysed_sst = mean(analysed_sst, na.rm = FALSE)) %&gt;%
+  ungroup() %&gt;%
+  mutate(lon = xFromCell(r, bigcell), lat = yFromCell(r, bigcell))
+
+r[] &lt;- NA
+r[dat$bigcell] &lt;- dat$analysed_sst
+names(r) &lt;- &quot;analysed_sst&quot;
+dat$bigcell &lt;- NA
+
+#m &lt;- sf::st_as_sf(maps::map(&quot;world&quot;, region = &quot;USA&quot;))
+bgMap &lt;- sf::st_as_sf( maps::map(&#39;world&#39;, plot = FALSE, fill = TRUE))
+
+ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r)) +
+  geom_raster(data = dat, aes(x = lon, y = lat, fill = analysed_sst))</code></pre>
+<pre><code>## Warning: Unknown or uninitialised column: &#39;geometry&#39;.</code></pre>
+<p><img src="../../../../post/2017-07-25-erddap-in-sf-and-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>## now, what happened before?
+
+#system.time({p &lt;- sf::st_as_sf(raster::rasterToPolygons(r))})
+## should be a bit faster due to use of implicit coordinate mesh
+system.time({p &lt;- sf::st_as_sf(spex::polygonize(r, na.rm = TRUE))})</code></pre>
+<pre><code>##    user  system elapsed 
+##   0.974   0.041   1.017</code></pre>
+<pre class="r"><code>## plot(p, border = NA)
+ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r)) +
+  geom_sf(data = p, aes(fill = analysed_sst), colour = &quot;transparent&quot;)</code></pre>
+<p><img src="../../../../post/2017-07-25-erddap-in-sf-and-ggplot2_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>u &lt;- &quot;http://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41&quot;
+
+library(tidync)
+library(dplyr)
+tnc &lt;- tidync::tidync(u)</code></pre>
+<pre><code>## not a file: 
+## &#39; http://coastwatch.pfeg.noaa.gov/erddap/griddap/jplMURSST41 &#39;
+## 
+## ... attempting remote connection
+## Connection succeeded.</code></pre>
+<pre class="r"><code>tnc  ## notice there are four variables in this active space</code></pre>
+<pre><code>## 
+## Data Source (1): jplMURSST41 ...
+## 
+## Grids (4) &lt;dimension family&gt; : &lt;associated variables&gt; 
+## 
+## [1]   D1,D0,D2 : analysed_sst, analysis_error, mask, sea_ice_fraction    **ACTIVE GRID** ( 3.583889e+12  values per variable)
+## [2]   D0       : latitude
+## [3]   D1       : longitude
+## [4]   D2       : time
+## 
+## Dimensions (3): 
+##   
+##   dimension    id      name length unlim coord_dim 
+##       &lt;chr&gt; &lt;dbl&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;lgl&gt;     &lt;lgl&gt; 
+## 1        D0     0  latitude  17999 FALSE      TRUE 
+## 2        D1     1 longitude  36000 FALSE      TRUE 
+## 3        D2     2      time   5531 FALSE      TRUE</code></pre>
+<pre class="r"><code>hf &lt;- tnc %&gt;% hyper_filter(longitude = longitude &gt;= -140 &amp; longitude &lt;= -105, latitude = latitude &gt;= 22 &amp; latitude &lt;= 51,
+                     time = index == max(index))
+hf</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##                access
+##                &lt;dttm&gt;
+## 1 2017-07-25 23:44:12
+## # ... with 1 more variables: source &lt;chr&gt;
+## filtered dimension summary: 
+## # A tibble: 3 x 5
+##        name coord_dim        min        max length
+##       &lt;chr&gt;     &lt;lgl&gt;      &lt;dbl&gt;      &lt;dbl&gt;  &lt;int&gt;
+## 1 longitude      TRUE       -140       -105   3501
+## 2  latitude      TRUE         22         51   2901
+## 3      time      TRUE 1500800400 1500800400      1</code></pre>
+<pre class="r"><code>## looking ok, so let&#39;s go for gold!
+## specify just sst, otherwise we will get all four
+## hyper_tibble gets the raw arrays with ncvar_get(conn, start = , count = ) calls
+## then expands out the axes based on the values from the filtered axis tables
+system.time({
+tab &lt;- hf %&gt;% hyper_tibble(select_var = &quot;analysed_sst&quot;)
+})</code></pre>
+<pre><code>##    user  system elapsed 
+##   2.358   1.948 153.737</code></pre>
+<pre class="r"><code># system.time({  ## 210 seconds
+#   hs &lt;- hyper_slice(hf, select_var = &quot;analysed_sst&quot;)
+# })
+# hyper_index(hf)
+# nc &lt;- ncdf4::nc_open(u)
+# system.time({  ## 144 seconds
+#   l &lt;- ncdf4::ncvar_get(nc, &quot;analysed_sst&quot;, start = c(4000, 2901, 5531), count = c(3501, 2901, 1))
+# })</code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="../../../../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="../../../../js/math-code.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    processEscapes: true
+  }
+});
+</script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
