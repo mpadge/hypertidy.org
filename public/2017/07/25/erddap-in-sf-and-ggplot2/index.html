@@ -69,7 +69,8 @@
     
 
     <div class="article-content">
-      <p>Two very important packages in R are <a href="https://CRAN.R-project.org/package=rerddap">rerddap</a> and <a href="https://github.com/ropensci/plotdap">plotdap</a> providing straightforward access to and visualization of time-varying gridded data sets. Traditionally this is handled by individuals who either have or quickly gain <em>expert knowledge</em> about the minute details regarding obtaining data sources, exploring and extracting data from them, manipulating the data for the required purpose and reporting results. Often this task is not the primary goal, it’s simply a requirement for <em>comparison to environmental data</em> or validation of direct measurements or modelled scenarios against independent data.</p>
+      <p><em>This post is in-progress …</em></p>
+<p>Two very important packages in R are <a href="https://CRAN.R-project.org/package=rerddap">rerddap</a> and <a href="https://github.com/ropensci/plotdap">plotdap</a> providing straightforward access to and visualization of time-varying gridded data sets. Traditionally this is handled by individuals who either have or quickly gain <em>expert knowledge</em> about the minute details regarding obtaining data sources, exploring and extracting data from them, manipulating the data for the required purpose and reporting results. Often this task is not the primary goal, it’s simply a requirement for <em>comparison to environmental data</em> or validation of direct measurements or modelled scenarios against independent data.</p>
 <p>This is a complex area, it touches on <strong>big data</strong>, <strong>web services</strong>, complex and sophisticated <strong>multi-dimensional scientific data in array formats</strong> (primarily <em>NetCDF</em>), <strong>map projections</strong>, and <strong>data aesthetics</strong> or <em>scaling</em> methods by which data values are converted into visualizations.</p>
 <p>R is not known to be strong in this area for <strong>handling large and complex array-based data</strong>, although it has had good support for every piece in the chain many of them were either not designed to work together or or languished without modernization for some time. There are many many approaches to <em>bring it all together</em> but unfortunately no concerted effort to sort it all out. What there is however is a very exciting and productive wave of experimentation and new packages to try, there’s a lot of exploration occurring and a lot of powerful new approaches.</p>
 <p><a href="https://ropensci.org/">ROpenSci</a> is producing a variety of valuable new R packages for scientific exploration and analysis. It and the <strong>RConsortium</strong> are both contributing directly into this ecosystem, with the latter helping to foster developments in <a href="https://CRAN.R-project.org/package=rerddap">simple features (polygons, lines and points)</a>, <a href="https://CRAN.R-project.org/package=rerddap">interactive map editing</a> and an <a href="https://github.com/r-spatial/stars">integration of large raster data handling</a>.</p>
@@ -187,7 +188,7 @@ ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r
 ## should be a bit faster due to use of implicit coordinate mesh
 system.time({p &lt;- sf::st_as_sf(spex::polygonize(r, na.rm = TRUE))})</code></pre>
 <pre><code>##    user  system elapsed 
-##   0.974   0.041   1.017</code></pre>
+##   1.002   0.016   1.017</code></pre>
 <pre class="r"><code>## plot(p, border = NA)
 ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r)) +
   geom_sf(data = p, aes(fill = analysed_sst), colour = &quot;transparent&quot;)</code></pre>
@@ -226,7 +227,7 @@ hf</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##                access
 ##                &lt;dttm&gt;
-## 1 2017-07-25 23:44:12
+## 1 2017-07-26 00:40:19
 ## # ... with 1 more variables: source &lt;chr&gt;
 ## filtered dimension summary: 
 ## # A tibble: 3 x 5
@@ -243,7 +244,7 @@ system.time({
 tab &lt;- hf %&gt;% hyper_tibble(select_var = &quot;analysed_sst&quot;)
 })</code></pre>
 <pre><code>##    user  system elapsed 
-##   2.358   1.948 153.737</code></pre>
+##   2.329   1.691 165.721</code></pre>
 <pre class="r"><code># system.time({  ## 210 seconds
 #   hs &lt;- hyper_slice(hf, select_var = &quot;analysed_sst&quot;)
 # })
@@ -258,6 +259,28 @@ tab &lt;- hf %&gt;% hyper_tibble(select_var = &quot;analysed_sst&quot;)
   </article>
 
   
+<section id="comments">
+  <div id="disqus_thread"></div>
+  <script>
+  var disqus_config = function () {
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var d = document, s = d.createElement('script');
+    s.src = '//hypertidy.disqus.com/embed.js'; s.async = true;
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
 
 
 </main>

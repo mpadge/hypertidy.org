@@ -4,7 +4,7 @@ languageCode = "en-us"
 title = "Hypertidy website"
 theme = "hugo-lithium-theme"
 googleAnalytics = ""
-disqusShortname = ""
+disqusShortname = "hypertidy"
 ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 
 [permalinks]

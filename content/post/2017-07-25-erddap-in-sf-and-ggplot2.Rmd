@@ -7,6 +7,12 @@ categories: []
 tags: []
 ---
 
+
+
+*This post is in-progress ...*
+
+
+
 Two very important packages in R are [rerddap](https://CRAN.R-project.org/package=rerddap) and [plotdap](https://github.com/ropensci/plotdap) providing straightforward access to and visualization of time-varying gridded data sets.  Traditionally this is handled by individuals who either have or quickly gain *expert knowledge* about the minute details regarding obtaining data sources, exploring and extracting data from them, manipulating the data for the required purpose and reporting results. Often this task is not the primary goal, it's simply a requirement for *comparison to environmental data* or validation of direct measurements or modelled scenarios against independent data. 
 
 This is a complex area, it touches on **big data**, **web services**, complex and sophisticated **multi-dimensional scientific data in array formats** (primarily *NetCDF*), **map projections**, and **data aesthetics** or *scaling* methods by which data values are converted into visualizations. 
