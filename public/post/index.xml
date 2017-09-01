@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Hypertidy website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 Sep 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>GDAL in R</title>
+      <link>/2017/09/01/gdal-in-r/</link>
+      <pubDate>Fri, 01 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/09/01/gdal-in-r/</guid>
+      <description>For some time I have used GDAL as a standard tool in my kit, I was introduced to the concept by the rgdal package authors and it slowly dawned on what it meant to have a geo-spatial data abstraction library. To realize what this meant I had spent a lot of time in R, reading (primarily) MapInfo TAB and MIF format files as well (of course) as shapefiles, and the occasional GeoTIFF.</description>
+    </item>
     
     <item>
       <title>Web services for scientific data in R</title>

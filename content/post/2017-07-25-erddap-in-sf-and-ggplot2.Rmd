@@ -95,6 +95,11 @@ Ah, no - we don't have to download every large data set. That's where [ERDDAP](h
 This makes it easy, but I'm still not happy. In this code a raw NetCDF file is downloaded but is not readily useable by other processes, it's not obvious how to connect directly to the source with NetCDF API, the raster data itself is turned into both a data frame, and  turned into a grid ignoring irregularity in the coordinates, the raster is then resized and possibly reprojected, then turned into a *polygon layer* (eek) and finally delivered to the user as a very simple high level function that accepts standard grammar expressions of the tidyverse. 
 
 
+
+What follows is some raw but real examples of using an in-development package `tidync` in the hypertidy family. It's very much work-in-progress, as is this blog post ...
+
+Please reach out to discuss any of this if you are interested!
+
 ```{r}
 #install.packages("rerddap")
 #devtools::install_github("ropensci/plotdap")
