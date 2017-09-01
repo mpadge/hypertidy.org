@@ -8,7 +8,7 @@ tags: []
 ---
 
 For some time I have used [GDAL](http://www.gdal.org/) as a standard tool in my kit, I was introduced to the concept by the `rgdal` package
-authors and it slowly dawned on what it meant to have a *geo-spatial data abstraction library*. To realize what this meant I had spent
+authors and it slowly dawned on me what it meant to have a *geo-spatial data abstraction library*. To realize what this meant I had spent
 a lot of time in R, reading (primarily) MapInfo TAB and MIF format files as well (of course) as *shapefiles*, and the occasional *GeoTIFF*. 
 
 I already knew how immensely powerful R was, with its epic flexibity and useability and I could just sense there was a brighter way once I understood many
@@ -31,7 +31,7 @@ These extra levels are there in the R API, the hard stuff down in the `rgdal/src
 
 Add to this the complex zoo of formats, the **other libraries** that GDAL requires for full use. The Windows `rgdal` on CRAN doesn't include HDF4, or HDF5, or NetCDF, or DODS - there are many missing things in this list, and it's not clear if it's because it's hard, it's against the license (ECW might be tricky, MrSID most definitely would be), or because **no one has asked** or **maybe no one knows how**, or maybe **CRAN doesn't want to**. (Would you know how to find out?) All of these things add up to being way too much for one package. It's kind of impossible, though now there are many more eyes on the problem and progress is being made. Who should decide these things? How would anyone know it's even an issue? 
 
-I wonder if many of us see rgdal as the definition of the GDAL abstraction. I see pretty clearly the difference, and while the package has been extremely useful for me I've long wanted lower level control and access to the GDAL core itself. (I had extremely influential gudiance from extremely expert programmers I've worked with, and I've discussed GDAL with many others, including Manifold GIS company employees and many users. I assume most R users don't know much about the details, and why would they want to?). 
+I wonder if many of us see rgdal as the definition of the GDAL abstraction. I see pretty clearly the difference, and while the package has been extremely useful for me I've long wanted lower level control and access to the GDAL core itself. (I had rather influential gudiance from extremely expert programmers I've worked with, and I've discussed GDAL with many others, including employees of various companies, and across various projects and with many users. I assume most R users don't know much about the details, and why would they want to?). 
 
 There is active work to modernize `rgdal`, and you should be aware of the immensely successful [sf](https://github.com/r-spatial/sf) and the soon to be [stars](https://github.com/r-spatial/stars) project. `sf` is an R interpretation of the Simple Features Standard (GDAL has an interpretation of that standard too, sf starts there when it *reads with GDAL*). `stars` will start with GDAL as a model for gridded data, and it's not yet fleshed out what the details of that will be. None of these interpretations are permanent, though while the simple features standard is unlikely to change, there is no doubt that GDAL will evolve and include more features that don't involve that standard. These things do change and very few people, relatively, are engaged in the decisions that are made.  (GDAL could definitely benefit from more input, also something I've long wanted to do more of). 
 
