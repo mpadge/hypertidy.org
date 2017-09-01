@@ -48,7 +48,7 @@ functions will have bugs, and will need maintenance, and maybe no one but
 me will ever use them. I've needed them and I've started to learn a whole
 lot more about what I'm going to do next with them. I recommend that any R user
 with an interest in geo-spatial or GDAL facilities have a closer look at how they work - and if you know there's a lower level below the interpretations provide in R
-you should explore the.  `Rcpp` and the modern tools for R really do make this immensely more easy than in the past (RStudio has *intellisense* for C++ ...). 
+you should explore them.  `Rcpp` and the modern tools for R really do make this immensely more easy than in the past (RStudio has *intellisense* for C++ ...). 
 
 I also believe strongly that R is well-placed to write the future of multi-dimensional and hierarchical and complex structured and geo-spatial data. We aren't looking at GIS and hoping to match them, they are, or will, be looking at R and wondering how it got so good so fast. 
 
