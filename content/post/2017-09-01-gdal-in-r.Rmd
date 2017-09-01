@@ -39,7 +39,7 @@ It's been a long time, but I've recently found a way over the key obstacle I had
 
 ## vapour
 
-My response to this is [`vapour`](https://github.com/hypertidy/vapour), this is my version of a *very minimal interpration* of the core GDAL facilities. There's a function to read
+My response to this is [`vapour`](https://github.com/hypertidy/vapour), this is my version of a *very minimal interpretation* of the core GDAL facilities. There's a function to read
 the *attribute data* from geometric features, a function to read 
 the *geometry data* as raw binary, or various text formats, a function to 
 read only the *bounding box* of each feature, and there's a function to 
