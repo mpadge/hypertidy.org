@@ -89,7 +89,7 @@
 <h2>What about the rasters!</h2>
 <p>I’ve been using <strong>gridded data</strong> in R since 2002. I remember clearly learning about the use of the <code>graphics::image</code> function for visualizing <em>2D kernel density</em> maps created using <a href="https://CRAN.R-project.org/package=sm">sm</a>. I have a life-long shudder reflex at the <code>heat.colors</code> palette, and at KDE maps generally. I also remember my first encounter with the <a href="https://www.unidata.ucar.edu/software/netcdf/">NetCDF format</a> which would have looked exactly like this (after waiting half and hour to download <a href="ftp://ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.wkmean.1990-present.nc">this file</a>).</p>
 <pre class="r"><code>print(sst.file)</code></pre>
-<pre><code>## [1] &quot;data/ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.wkmean.1990-present.nc&quot;</code></pre>
+<pre><code>## [1] &quot;ftp.cdc.noaa.gov/Datasets/noaa.oisst.v2/sst.wkmean.1990-present.nc&quot;</code></pre>
 <pre class="r"><code>library(RNetCDF)
 con &lt;- open.nc(file.path(dp, sst.file))
 lon &lt;- var.get.nc(con, &quot;lon&quot;)
@@ -115,7 +115,7 @@ image(lon[xsub], rev(lat[ysub]), v[nrow(v):1, ], asp = 1/cos(42 * pi/180))</code
 <pre class="r"><code>b &lt;- brick(file.path(dp, sst.file))</code></pre>
 <pre><code>## Loading required namespace: ncdf4</code></pre>
 <pre class="r"><code>nlayers(b)</code></pre>
-<pre><code>## [1] 1437</code></pre>
+<pre><code>## [1] 1443</code></pre>
 <pre class="r"><code>raster(b)</code></pre>
 <pre><code>## class       : RasterLayer 
 ## dimensions  : 180, 360, 64800  (nrow, ncol, ncell)
@@ -135,6 +135,8 @@ plot(crop(subset(b, nlayers(b) - c(1, 0)), extent(xlim, ylim), snap = &quot;out&
 <h2>Web services for scientific array data</h2>
 <p>Ah, no - we don’t have to download every large data set. That’s where <a href="http://coastwatch.pfeg.noaa.gov/erddap/index.html">ERDDAP</a> comes in!</p>
 <p>This makes it easy, but I’m still not happy. In this code a raw NetCDF file is downloaded but is not readily useable by other processes, it’s not obvious how to connect directly to the source with NetCDF API, the raster data itself is turned into both a data frame, and turned into a grid ignoring irregularity in the coordinates, the raster is then resized and possibly reprojected, then turned into a <em>polygon layer</em> (eek) and finally delivered to the user as a very simple high level function that accepts standard grammar expressions of the tidyverse.</p>
+<p>What follows is some raw but real examples of using an in-development package <code>tidync</code> in the hypertidy family. It’s very much work-in-progress, as is this blog post …</p>
+<p>Please reach out to discuss any of this if you are interested!</p>
 <pre class="r"><code>#install.packages(&quot;rerddap&quot;)
 #devtools::install_github(&quot;ropensci/plotdap&quot;)
 library(rerddap)
@@ -143,9 +145,8 @@ library(ggplot2)
 sstInfo &lt;- info(&#39;jplMURSST41&#39;)
 #system.time({  ## 26 seconds
 murSST &lt;- griddap(sstInfo, latitude = c(22., 51.), longitude = c(-140., -105),
-                  time = c(&#39;last&#39;,&#39;last&#39;), fields = &#39;analysed_sst&#39;)</code></pre>
-<pre><code>## [1] &quot;https://upwell.pfeg.noaa.gov/erddap/griddap/jplMURSST41.nc&quot;</code></pre>
-<pre class="r"><code>#})
+                  time = c(&#39;last&#39;,&#39;last&#39;), fields = &#39;analysed_sst&#39;)
+#})
 f &lt;- attr(murSST, &quot;path&quot;)
 #unlink(f)
 
@@ -180,7 +181,6 @@ bgMap &lt;- sf::st_as_sf( maps::map(&#39;world&#39;, plot = FALSE, fill = TRUE))
 
 ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r)) +
   geom_raster(data = dat, aes(x = lon, y = lat, fill = analysed_sst))</code></pre>
-<pre><code>## Warning: Unknown or uninitialised column: &#39;geometry&#39;.</code></pre>
 <p><img src="../../../../post/2017-07-25-erddap-in-sf-and-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>## now, what happened before?
 
@@ -188,7 +188,7 @@ ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r
 ## should be a bit faster due to use of implicit coordinate mesh
 system.time({p &lt;- sf::st_as_sf(spex::polygonize(r, na.rm = TRUE))})</code></pre>
 <pre><code>##    user  system elapsed 
-##   1.002   0.016   1.017</code></pre>
+##   0.936   0.008   0.945</code></pre>
 <pre class="r"><code>## plot(p, border = NA)
 ggplot() + geom_sf(data = bgMap) + xlim(xmin(r), xmax(r)) + ylim(ymin(r), ymax(r)) +
   geom_sf(data = p, aes(fill = analysed_sst), colour = &quot;transparent&quot;)</code></pre>
@@ -209,7 +209,7 @@ tnc &lt;- tidync::tidync(u)</code></pre>
 ## 
 ## Grids (4) &lt;dimension family&gt; : &lt;associated variables&gt; 
 ## 
-## [1]   D1,D0,D2 : analysed_sst, analysis_error, mask, sea_ice_fraction    **ACTIVE GRID** ( 3.583889e+12  values per variable)
+## [1]   D1,D0,D2 : analysed_sst, analysis_error, mask, sea_ice_fraction    **ACTIVE GRID** ( 3.608512e+12  values per variable)
 ## [2]   D0       : latitude
 ## [3]   D1       : longitude
 ## [4]   D2       : time
@@ -220,14 +220,14 @@ tnc &lt;- tidync::tidync(u)</code></pre>
 ##       &lt;chr&gt; &lt;dbl&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;lgl&gt;     &lt;lgl&gt; 
 ## 1        D0     0  latitude  17999 FALSE      TRUE 
 ## 2        D1     1 longitude  36000 FALSE      TRUE 
-## 3        D2     2      time   5531 FALSE      TRUE</code></pre>
+## 3        D2     2      time   5569 FALSE      TRUE</code></pre>
 <pre class="r"><code>hf &lt;- tnc %&gt;% hyper_filter(longitude = longitude &gt;= -140 &amp; longitude &lt;= -105, latitude = latitude &gt;= 22 &amp; latitude &lt;= 51,
                      time = index == max(index))
 hf</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##                access
 ##                &lt;dttm&gt;
-## 1 2017-07-26 00:40:19
+## 1 2017-09-02 00:36:54
 ## # ... with 1 more variables: source &lt;chr&gt;
 ## filtered dimension summary: 
 ## # A tibble: 3 x 5
@@ -235,7 +235,7 @@ hf</code></pre>
 ##       &lt;chr&gt;     &lt;lgl&gt;      &lt;dbl&gt;      &lt;dbl&gt;  &lt;int&gt;
 ## 1 longitude      TRUE       -140       -105   3501
 ## 2  latitude      TRUE         22         51   2901
-## 3      time      TRUE 1500800400 1500800400      1</code></pre>
+## 3      time      TRUE 1503997200 1503997200      1</code></pre>
 <pre class="r"><code>## looking ok, so let&#39;s go for gold!
 ## specify just sst, otherwise we will get all four
 ## hyper_tibble gets the raw arrays with ncvar_get(conn, start = , count = ) calls
@@ -244,7 +244,7 @@ system.time({
 tab &lt;- hf %&gt;% hyper_tibble(select_var = &quot;analysed_sst&quot;)
 })</code></pre>
 <pre><code>##    user  system elapsed 
-##   2.329   1.691 165.721</code></pre>
+##   2.644   1.789 548.210</code></pre>
 <pre class="r"><code># system.time({  ## 210 seconds
 #   hs &lt;- hyper_slice(hf, select_var = &quot;analysed_sst&quot;)
 # })

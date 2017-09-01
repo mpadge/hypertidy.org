@@ -43,7 +43,7 @@ I've been using **gridded data** in R since 2002. I remember clearly learning ab
 ```{r,include=FALSE}
 library(dplyr)
 sst.file <- raadfiles:::get_raw_raad_filenames() %>% filter(grepl("sst.wkmean.1990-present.nc", file)) %>% pull(file)
-dp <- getOption("default.datadir")
+dp <- file.path(gsub("PRIVATE", "PUBLIC", getOption("default.datadir")), "data")
 ```
 
 

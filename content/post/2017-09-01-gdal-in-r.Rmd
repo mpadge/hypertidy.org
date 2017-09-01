@@ -31,13 +31,13 @@ These extra levels are there in the R API, the hard stuff down in the `rgdal/src
 
 Add to this the complex zoo of formats, the **other libraries** that GDAL requires for full use. The Windows `rgdal` on CRAN doesn't include HDF4, or HDF5, or NetCDF, or DODS - there are many missing things in this list, and it's not clear if it's because it's hard, it's against the license (ECW might be tricky, MrSID most definitely would be), or because **no one has asked** or **maybe no one knows how**, or maybe **CRAN doesn't want to**. (Would you know how to find out?) All of these things add up to being way too much for one package. It's kind of impossible, though now there are many more eyes on the problem and progress is being made. Who should decide these things? How would anyone know it's even an issue? 
 
-I wonder if many of us see rgdal as the definition of the GDAL abstraction. I see pretty clearly the difference, and while the package has been extremely useful for me I've long wanted lower level control and access to the GDAL core itself. (I had extremely influential gudiance from a professional team of programmers, and I've discussed GDAL with many others, including Manifold GIS company employees and many users. I assume most R users don't know much about the details, and why would they want to). 
+I wonder if many of us see rgdal as the definition of the GDAL abstraction. I see pretty clearly the difference, and while the package has been extremely useful for me I've long wanted lower level control and access to the GDAL core itself. (I had extremely influential gudiance from extremely expert programmers I've worked with, and I've discussed GDAL with many others, including Manifold GIS company employees and many users. I assume most R users don't know much about the details, and why would they want to?). 
 
 It's been a long time, but I've recently found a way over the key obstacle I had - building a package to compile for use in R with bindings to GDAL itself. I have a lot to thank Roger Bivand and Edzer Pebesma for many years of instruction and guidance in that, in many different ways. I also am extremely grateful to R-Core for the overall enviroment, ad to Jeroen Ooms and Mark Padgham, and there are many others. This is something I've wanted to be able to do for a really long time. I hope this post helps provide context to why, and I'm very happy to discuss the issues with anyone. 
 
 ## vapour
 
-My response to this is `vapour`, this is my version of a *very minimal interpration* of the core GDAL facilities. There's a function to read
+My response to this is [`vapour`](https://github.com/hypertidy/vapour), this is my version of a *very minimal interpration* of the core GDAL facilities. There's a function to read
 the *attribute data* from geometric features, a function to read 
 the *geometry data* as raw binary, or various text formats, a function to 
 read only the *bounding box* of each feature, and there's a function to 
