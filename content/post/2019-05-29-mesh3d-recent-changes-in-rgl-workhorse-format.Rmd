@@ -225,7 +225,9 @@ rglwidget()
 
 (each face is discretely coloured), or by vertex in the legacy mode. 
 
-```{r vertices-colour}
+Not run, to save the size of the document. 
+
+```{r vertices-colour, eval = FALSE}
 clear3d()
 qm_ll$material$color <-colourvalues::color_values(qm_ll$vb[3, qm_ll$ib])
                                                    
