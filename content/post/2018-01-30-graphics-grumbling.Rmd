@@ -1,0 +1,115 @@
+---
+title: Graphics Grumbling
+author: ~
+date: '2018-01-30'
+slug: graphics-grumbling
+categories: []
+tags: []
+---
+
+R is amazing for graphics and mapping, but there are certain frustrations and limitations that I encounter at times. Today I had a short turn-around for a new map where I saw the two ends of this frustration. Here are two maps I made today. 
+
+```{r}
+library(magick)
+## gdal_translate MODISA_2017-02-01.tif MODISA_2017-02-01_mgk.tif -co PROFILE=BASELINE
+image_read("grumbles/MODISA_2017-02-01_mgk.tif")
+image_read("grumbles/MODISA_2017-02-01.png")
+```
+
+
+These maps both contain the same data, it's a region in the Ross Sea with the February
+monthly composite mean chlorophyll-a from the MODIS-A satellite. The data was read directly 
+from the NetCDF "L3 mapped" file, obtainable from here. 
+
+https://oceandata.sci.gsfc.nasa.gov/cgi/getfile/A20170322017059.L3m_MO_CHL_chlor_a_9km.nc  
+
+### Further unimportant details
+
+To get the region I wanted required reading from the "western" and "eastern" extremes of that
+NetCDF file, and merging them together in the right way so that I have a longitude range
+spanning the International Dateline. 
+
+There is an extra step required to render the GeoTIFF file in this document, I had to strip out the GeoTIFF tags to give a "baseline" TIFF that Imagemagick on my system could deal with. 
+
+
+### Further important details
+
+The raw data values represent chlorophyll-a in milligrams per cubic metre (mg / m-3), as per the scale provided by the Ocean Color group. 
+
+```{r}
+image_read("grumbles/chla_scale.png")
+```
+
+The maps look quite different, the main difference being simply the *aspect ratio*, simply the scale chosen for one unit in the horizontal direction versus the vertical. 
+
+The only other difference is the lines and labels of the graticule, the lines of constant longitude and latitude. 
+
+
+## Drawing maps and drawing on maps
+
+The first map was created with a specific outcome in mind, I simply wanted an extraction from 
+the raw NetCDF file for my region, with data scaled as per the official colour palette. This has a straightforward process.
+
+* read from NeCDF, crop west and east region out
+* shift the western region by one entire rotation, and merge with the eastern
+* map data values to colours and replace the data values with colour representation
+* <span style="color:#B22222">write out to a format that supports a colour image with map-georeferencing and that my collaborator can work with (GeoTIFF)</span>
+
+The second map was similar, but this time I really needed to plot extra stuff on the map. What even happens here? Do I *modify the colour pixels* in order to bake in the longitude and latitude lines, or do I build a layered graphics object and then render it at a particular zoom? 
+
+What I did was
+
+* read from NeCDF, crop west and east region out
+* shift the western region by one entire rotation, and merge with the eastern
+* map data values to colours and replace the data values with colour representation
+* <span style="color:#1E90FF">opened a device to plot, plotted the image into the device</span>
+* <span style="color:#1E90FF">added graticule lines and labels by "drawing" on the open device</span>
+* <span style="color:#1E90FF">closed the device (I used `png()` and that's the file available above)</span>
+
+
+What I really wanted was for the first file to dictate the plot device, but this was quite difficult to do. 
+
+
+# Code
+
+```{r}
+## get the file
+u <- "https://oceandata.sci.gsfc.nasa.gov/cgi/getfile/A20170322017059.L3m_MO_CHL_chlor_a_9km.nc"
+fbase <- basename(u)
+if (!file.exists(fbase)) curl::curl_download(u, destfile = fbase)
+
+## read from NeCDF, crop west and east region out
+library(raster)
+rdata <- raster(fbase, varname = "chlor_a")
+ylim <- c(-86, -60)
+xlim1 <- c(120, 180) 
+xlim2 <- c(-180, -140)
+east <- raster::crop(rdata, extent(xlim1, ylim))
+west <- raster::crop(rdata, extent(xlim2, ylim))
+
+## shift the western region by one entire rotation, and merge with the eastern
+rdata <- raster::merge(east, raster::shift(west, x = 360))
+
+#map data values to colours and replace the data values with colour representation
+rimage <- setValues(brick(rdata, rdata, rdata), t(col2rgb(palr::chlPal(values(rdata)))))
+
+rimage
+png(width = ncol(rimage), height = nrow(rimage))
+plotRGB(rimage, asp = "")
+mapext <- spex::spex(extent(rimage, 50, nrow(rimage) - 50, 100, ncol(rimage) - 100), crs = projection(rimage))  ## take a buffer inside
+rgdal::llgridlines(mapext, cex = 1.5)
+dev.off()
+image_read("Rplot001.png")
+```
+
+
+So what is the problem? The png is exactly what I wanted, but I can't create it as a GeoTIFF. Well, I can. 
+
+```{r}
+b <- brick("Rplot001.png")
+extent(b) <- extent(rdata)
+projection(b) <- projection(rdata)
+
+plotRGB(b, addfun = maps::map("world2", add  = TRUE))
+#writeRaster(b, "result.tif")
+```
