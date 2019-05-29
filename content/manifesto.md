@@ -1,6 +1,6 @@
 ---
 title: "Hypertidy manifesto"
-date: "2017-6-13"
+date: "2017-06-13"
 ---
 
 ## Gridded data 

@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Hypertidy website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 01 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>mesh3d - recent changes in rgl workhorse format</title>
+      <link>/2019/05/29/mesh3d-recent-changes-in-rgl-workhorse-format/</link>
+      <pubDate>Wed, 29 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/29/mesh3d-recent-changes-in-rgl-workhorse-format/</guid>
+      <description>This post describes the mesh3d format used in the rgl package and particularly how colour properties are stored and used. There are recent changes to this behaviour (see ‘meshColor’), and previously the situation was not clearly documented.
+rgl The rgl package has long provided interactive 3D graphics for R. The neat thing for me about 3D graphics is the requirement for mesh forms of data, and the fact that meshes are extremely useful for very many tasks.</description>
+    </item>
     
     <item>
       <title>GDAL in R</title>
